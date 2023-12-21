@@ -48,6 +48,16 @@ dotnet run
 
 After starting, the application will wait for input. Type your message and press enter to send it to the configured Kafka topic.
 
+## Testing
+
+The application includes a suite of unit tests to verify the behavior of the Kafka producer. These tests can be executed using the following command:
+
+```bash
+dotnet test
+```
+
+The testing framework used is NUnit, and the tests cover both successful and erroneous message production scenarios. Continuous Integration is set up to run these tests automatically when changes are pushed to the repository.
+
 ## How to Use
 
 1. Start the application with `dotnet run`.
@@ -59,10 +69,11 @@ After starting, the application will wait for input. Type your message and press
 - Interactive command-line interface to produce messages to Kafka.
 - Configurable Kafka producer settings.
 - Graceful error handling and message delivery confirmation.
+- Automated unit tests to ensure software quality.
 
 ## Contributing
 
-We encourage public contributions! Please review our `CONTRIBUTING.md` file if you are interested in helping.
+I encourage public contributions! Please review my `CONTRIBUTING.md` file if you are interested in helping.
 
 ## License
 
