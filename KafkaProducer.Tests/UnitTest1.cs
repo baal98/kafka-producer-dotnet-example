@@ -1,5 +1,7 @@
-using Confluent.Kafka;
+using NUnit.Framework;
 using Moq;
+using Confluent.Kafka;
+using System.Threading.Tasks;
 
 namespace KafkaProducer.Tests
 {
@@ -35,9 +37,9 @@ namespace KafkaProducer.Tests
             var result = await kafkaProducer.ProduceAsync(TestTopic, TestValue);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(TestTopic, result.TopicPartitionOffset.Topic);
-            Assert.AreEqual(TestValue, result.Value);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.TopicPartitionOffset.Topic, Is.EqualTo(TestTopic));
+            Assert.That(result.Message.Value, Is.EqualTo(TestValue));
             mockProducer.Verify(x => x.ProduceAsync(TestTopic, It.Is<Message<Null, string>>(m => m.Value == TestValue), It.IsAny<CancellationToken>()), Times.Once());
         }
     }
