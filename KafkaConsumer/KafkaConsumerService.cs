@@ -8,24 +8,24 @@ namespace KafkaConsumer
     {
         private readonly IConsumer<Ignore, string> _consumer;
 
-        // Constructor for actual usage
         public KafkaConsumerService(ConsumerConfig config)
         {
             _consumer = new ConsumerBuilder<Ignore, string>(config).Build();
         }
 
-        // Constructor for testing
         public KafkaConsumerService(IConsumer<Ignore, string> consumer)
         {
             _consumer = consumer ?? throw new ArgumentNullException(nameof(consumer));
         }
 
-
-        public ConsumeResult<Ignore, string> Consume(CancellationToken cancellationToken)
+        public ConsumeResult<Ignore, string>? Consume(CancellationToken cancellationToken)
         {
             try
             {
-                return _consumer.Consume(cancellationToken);
+                var result = _consumer.Consume(cancellationToken);
+                // Make sure to access the message value through .Message.Value
+                Console.WriteLine($"Consumed message '{result.Message.Value}' at: '{result.TopicPartitionOffset}'.");
+                return result;
             }
             catch (ConsumeException e)
             {
