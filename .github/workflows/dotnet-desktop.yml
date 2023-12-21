@@ -19,15 +19,21 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: List directory structure
-      run: ls -R
+    # Add a step for each solution file
+    - name: Restore dependencies for KafkaProducer
+      run: dotnet restore KafkaProducer/KafkaProducer.sln
 
-    - name: Restore dependencies
-      run: dotnet restore **/*.sln
+    - name: Restore dependencies for KafkaConsumer
+      run: dotnet restore KafkaConsumer/KafkaConsumer.sln
 
-    - name: Build
-      run: dotnet build --no-restore
+    # Add a build step for each solution file
+    - name: Build KafkaProducer
+      run: dotnet build KafkaProducer/KafkaProducer.sln --no-restore
 
+    - name: Build KafkaConsumer
+      run: dotnet build KafkaConsumer/KafkaConsumer.sln --no-restore
+
+    # Add a test step for each test project
     - name: Test KafkaProducer
       run: dotnet test KafkaProducer.Tests/KafkaProducer.Tests.csproj --no-build --verbosity normal
 
